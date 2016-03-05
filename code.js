@@ -61,14 +61,13 @@ function addPersonInfo(currentPersonInfo, currentPersonDiv) {
 
 //Adds the lifespan to the footer of the person element
   currentPersonDiv.lastChild.innerHTML = personLifeDeath;
-
 }
 
 function createPersonDiv(currentPerson, currentCount) {
 
 //Create the Individual Person Container and give it a class of yellow or blue depending on its number in the array
   var personHolder = document.createElement("person");
-  personHolder.classList.add("person-element");
+  personHolder.classList.add("person-person");
   if (currentCount % 2 === 0) {
     personHolder.classList.add("light-yellow");
   } else {
@@ -78,12 +77,12 @@ function createPersonDiv(currentPerson, currentCount) {
 
 //Creates the header element which holds the title and name of the person 
   var personHeader = document.createElement("header");
-  personHeader.classList.add("person-text")
+  personHeader.classList.add("person-header")
   personHolder.appendChild(personHeader);
   
 //Creates the section element which holds the person's bio and img
   var personSection = document.createElement("section");
-  personSection.classList.add("person-img")
+  personSection.classList.add("person-section")
   personHolder.appendChild(personSection);
 
 //Creates the p for the bio and img for the image and adds it to the personSection
