@@ -48,21 +48,36 @@ function addPersonInfo(currentPersonInfo, currentPersonDiv) {
   var personTitleName = "<h2>" + currentPersonInfo.title + ": " + currentPersonInfo.name + "</h2>";
   var personLifeDeath = "<h4>Alive from: " + currentPersonInfo.lifespan.birth + " through " + currentPersonInfo.lifespan.death + "</h4>";
   var personBio = "<p>" + currentPersonInfo.bio + "</p>";
-  var personImg = "<img src='" + currentPersonInfo.image + "' alt='" + currentPersonInfo.name + "'/>"
-  currentPersonDiv.innerHTML += (personImg);
+  var personImg = currentPersonInfo.image;
+  var personImgAlt = currentPersonInfo.name;
   currentPersonDiv.firstChild.innerHTML += (personTitleName);
   currentPersonDiv.firstChild.innerHTML += (personBio);
   currentPersonDiv.firstChild.innerHTML += (personLifeDeath);
+  currentPersonDiv.lastChild.setAttribute("src", personImg);
+  currentPersonDiv.lastChild.setAttribute("alt", personImgAlt);
 }
 
-function createPersonDiv(currentPerson) {
+function createPersonDiv(currentPerson, currentCount) {
   var personDiv = document.createElement("div");
+  personDiv.classList.add("person-element");
+  
+  if (currentCount % 2 === 0) {
+    personDiv.classList.add("light-yellow");
+  } else {
+    personDiv.classList.add("light-blue");
+  };
+
   peopleHolder.appendChild(personDiv);
   var personText = document.createElement("div");
+  personText.classList.add("person-text")
   personDiv.appendChild(personText);
+  var personImg = document.createElement("img");
+  personImg.classList.add("person-img")
+  personDiv.appendChild(personImg);
   addPersonInfo(currentPerson, personDiv);
 }
 
 for (var i = 0; i < peopleArray.length; i++) {
-  createPersonDiv(peopleArray[i]);
+
+  createPersonDiv(peopleArray[i], i);
 }
