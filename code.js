@@ -47,34 +47,64 @@ function addPersonInfo(currentPersonInfo, currentPersonDiv) {
 
   var personTitleName = "<h2>" + currentPersonInfo.title + ": " + currentPersonInfo.name + "</h2>";
   var personLifeDeath = "<h4>Alive from: " + currentPersonInfo.lifespan.birth + " through " + currentPersonInfo.lifespan.death + "</h4>";
-  var personBio = "<p>" + currentPersonInfo.bio + "</p>";
+  var personBio = currentPersonInfo.bio;
   var personImg = currentPersonInfo.image;
   var personImgAlt = currentPersonInfo.name;
+
+//Adds the title/name to the header of the person element
   currentPersonDiv.firstChild.innerHTML += (personTitleName);
-  currentPersonDiv.firstChild.innerHTML += (personBio);
-  currentPersonDiv.firstChild.innerHTML += (personLifeDeath);
-  currentPersonDiv.lastChild.setAttribute("src", personImg);
-  currentPersonDiv.lastChild.setAttribute("alt", personImgAlt);
+
+//Adds the bio/image to the section of the person element
+  currentPersonDiv.lastChild.previousSibling.firstChild.innerHTML = (personBio);
+  currentPersonDiv.lastChild.previousSibling.lastChild.setAttribute("src", personImg);
+  currentPersonDiv.lastChild.previousSibling.lastChild.setAttribute("alt", personImgAlt);
+
+//Adds the lifespan to the footer of the person element
+  currentPersonDiv.lastChild.innerHTML = personLifeDeath;
+
 }
 
 function createPersonDiv(currentPerson, currentCount) {
-  var personDiv = document.createElement("div");
-  personDiv.classList.add("person-element");
-  
-  if (currentCount % 2 === 0) {
-    personDiv.classList.add("light-yellow");
-  } else {
-    personDiv.classList.add("light-blue");
-  };
 
-  peopleHolder.appendChild(personDiv);
-  var personText = document.createElement("div");
-  personText.classList.add("person-text")
-  personDiv.appendChild(personText);
-  var personImg = document.createElement("img");
-  personImg.classList.add("person-img")
-  personDiv.appendChild(personImg);
-  addPersonInfo(currentPerson, personDiv);
+//Create the Individual Person Container and give it a class of yellow or blue depending on its number in the array
+  var personHolder = document.createElement("person");
+  personHolder.classList.add("person-element");
+  if (currentCount % 2 === 0) {
+    personHolder.classList.add("light-yellow");
+  } else {
+    personHolder.classList.add("light-blue");
+  };
+  peopleHolder.appendChild(personHolder);
+
+//Creates the header element which holds the title and name of the person 
+  var personHeader = document.createElement("header");
+  personHeader.classList.add("person-text")
+  personHolder.appendChild(personHeader);
+  
+//Creates the section element which holds the person's bio and img
+  var personSection = document.createElement("section");
+  personSection.classList.add("person-img")
+  personHolder.appendChild(personSection);
+
+//Creates the p for the bio and img for the image and adds it to the personSection
+
+  var personPTag = document.createElement("p");
+  personPTag.classList.add("person-bio");
+  personHolder.lastChild.appendChild(personPTag);
+
+//Creates the p for the bio and img for the image and adds it to the personSection
+
+  var personImgTag = document.createElement("img");
+  personImgTag.classList.add("person-img");
+  personHolder.lastChild.appendChild(personImgTag);
+
+//Creates the footer element which holds the person's lifespan
+  var personFooter = document.createElement("footer");
+  personFooter.classList.add("person-footer")
+  personHolder.appendChild(personFooter);
+
+//Calls the function to add the info to the elements
+  addPersonInfo(currentPerson, personHolder);
 }
 
 for (var i = 0; i < peopleArray.length; i++) {
