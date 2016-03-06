@@ -19,7 +19,6 @@ input {
   align-items: center;
 }
 
-
 .person-section {
   display: flex;
   flex-direction: row;
@@ -44,3 +43,6 @@ input {
   background-color: lightblue;
 }
 
+.person-selected {
+  border: 2px dotted red;
+}

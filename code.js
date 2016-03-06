@@ -1,5 +1,10 @@
+//Assign the div that holds all the person elements
 var peopleHolder = document.getElementById("people-holder");
 
+//Assign the input box that the user will use to search
+var searchData = document.getElementById("search-data");
+
+//The array of people objects
 var peopleArray = [
   {
     title: "Superhero",
@@ -43,8 +48,11 @@ var peopleArray = [
   }
 ];
 
+//This function add all the person text/img from the person array objects to the elements 
+//  created in the DOM.
 function addPersonInfo(currentPersonInfo, currentPersonDiv) {
 
+//Assign all the textual data to variables
   var personTitleName = "<h2>" + currentPersonInfo.title + ": " + currentPersonInfo.name + "</h2>";
   var personLifeDeath = "<h4>Alive from: " + currentPersonInfo.lifespan.birth + " through " + currentPersonInfo.lifespan.death + "</h4>";
   var personBio = currentPersonInfo.bio;
@@ -54,7 +62,7 @@ function addPersonInfo(currentPersonInfo, currentPersonDiv) {
 //Adds the title/name to the header of the person element
   currentPersonDiv.firstChild.innerHTML += (personTitleName);
 
-//Adds the bio/image to the section of the person element
+//Adds the bio text and image pic to the section of the person element
   currentPersonDiv.lastChild.previousSibling.firstChild.innerHTML = (personBio);
   currentPersonDiv.lastChild.previousSibling.lastChild.setAttribute("src", personImg);
   currentPersonDiv.lastChild.previousSibling.lastChild.setAttribute("alt", personImgAlt);
@@ -63,6 +71,8 @@ function addPersonInfo(currentPersonInfo, currentPersonDiv) {
   currentPersonDiv.lastChild.innerHTML = personLifeDeath;
 }
 
+//This function builds the person element that holds the header, section and footer 
+// data elements.
 function createPersonDiv(currentPerson, currentCount) {
 
 //Create the Individual Person Container and give it a class of yellow or blue depending on its number in the array
@@ -74,6 +84,7 @@ function createPersonDiv(currentPerson, currentCount) {
     personHolder.classList.add("light-blue");
   };
   peopleHolder.appendChild(personHolder);
+  personHolder.addEventListener("click", selectPerson);
 
 //Creates the header element which holds the title and name of the person 
   var personHeader = document.createElement("header");
@@ -85,14 +96,12 @@ function createPersonDiv(currentPerson, currentCount) {
   personSection.classList.add("person-section")
   personHolder.appendChild(personSection);
 
-//Creates the p for the bio and img for the image and adds it to the personSection
-
+//Creates the p for the bio and adds it to the person Section
   var personPTag = document.createElement("p");
   personPTag.classList.add("person-bio");
   personHolder.lastChild.appendChild(personPTag);
 
-//Creates the p for the bio and img for the image and adds it to the personSection
-
+//Creates the img for the image and adds it to the person Section
   var personImgTag = document.createElement("img");
   personImgTag.classList.add("person-img");
   personHolder.lastChild.appendChild(personImgTag);
@@ -106,7 +115,46 @@ function createPersonDiv(currentPerson, currentCount) {
   addPersonInfo(currentPerson, personHolder);
 }
 
-for (var i = 0; i < peopleArray.length; i++) {
+//When clicked selects the person element and gives it a css class styled with a border
+//  It's also looks to see if an element already is selected and if so removes the border
+//  Lastly, it gives focus to the text/input element.
+function selectPerson(personSelected) {
+  personSelected.stopPropagation();
+  var classPersonSelected = document.querySelector(".person-selected");
 
+  if (classPersonSelected === null) {
+  } else {
+    classPersonSelected.classList.remove("person-selected");
+  };
+
+  personSelected.currentTarget.classList.add("person-selected");
+  searchData.focus();
+}
+
+//Function gets the "selected" person element and takes the data entered into the text box 
+//  and adds it directly to the persons bio description.
+function inputBio(inputElement) {
+  var classPersonSelected = document.querySelector(".person-selected");
+
+//Checks to see if the no one is selected, if true the textbox is cleared after each keypress
+  if (classPersonSelected === null) {
+    searchData.value = "";
+//Checks to see if the enter key is press, if true the textbok is cleared and blurred
+  } else if (inputElement.keyCode === 13) {
+    searchData.value = "";
+    searchData.blur();
+//If no errors and a person is selected, their bios are over written from the text input
+  } else {
+    bioElement = classPersonSelected.childNodes[1].childNodes[0];
+    bioElement.textContent = searchData.value;
+  };
+}
+
+//Build the page based on the number of people in the person object array
+for (var i = 0; i < peopleArray.length; i++) {
   createPersonDiv(peopleArray[i], i);
 }
+
+//Check to see if someone is typing in the input textbox
+searchData.addEventListener("keyup", inputBio);
+
