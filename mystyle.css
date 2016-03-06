@@ -1,0 +1,48 @@
+body {
+  box-sizing: border-box;
+}
+
+input {
+  margin-bottom: 1%;
+}
+
+.people-holder {
+  display: flex;
+  flex-direction: column;
+}
+
+.person-person {
+  display: flex;
+  margin-bottom: 1%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.person-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.person-bio {
+  flex-basis: 70%;
+}
+
+.person-img {
+  max-height: 150px;
+  width: auto;
+  margin-left: 5px;
+}
+
+.light-yellow {
+  background-color: lightyellow;
+}
+
+.light-blue {
+  background-color: lightblue;
+}
+
+.person-selected {
+  border: 2px dotted red;
+}
